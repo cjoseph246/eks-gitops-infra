@@ -1,0 +1,6 @@
+*.tfstate
+*.tfstate.*
+.terraform/
+.terragrunt-cache/
+bucket_name.txt
+*.bak
