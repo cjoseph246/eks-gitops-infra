@@ -1,5 +1,5 @@
 locals {
-  bucket_name = trim(file(find_in_parent_folders("bucket_name.txt")))
+  bucket_name = trim(file(find_in_parent_folders("bucket_name.txt")), "\n")
 }
 
 remote_state {
