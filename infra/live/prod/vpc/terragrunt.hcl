@@ -3,5 +3,9 @@ include {
 }
 
 terraform {
-  source = "../../modules/vpc"
+  source = "../../../modules/vpc"
+}
+
+inputs = {
+  aws_region = "us-east-1"
 }

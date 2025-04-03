@@ -1,3 +1,7 @@
+provider "aws" {
+  region = var.aws_region
+}
+
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "~> 5.19"
@@ -15,4 +19,8 @@ module "vpc" {
   tags = {
     "kubernetes.io/cluster/eks-cluster" = "shared"
   }
+}
+
+terraform {
+  backend "s3" {}
 }
