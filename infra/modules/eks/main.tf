@@ -1,3 +1,7 @@
+provider "aws" {
+  region = var.aws_region
+}
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.35"
@@ -15,7 +19,7 @@ module "eks" {
       max_size     = 3
       min_size     = 2
 
-      instance_types = ["m6a.large", "t3.large"]
+      instance_types = ["t3.large"]
       ami_type = "AL2_x86_64"
       capacity_type  = "ON_DEMAND"
     }
@@ -24,4 +28,8 @@ module "eks" {
   tags = {
     environment = "prod"
   }
+}
+
+terraform {
+  backend "s3" {}
 }
