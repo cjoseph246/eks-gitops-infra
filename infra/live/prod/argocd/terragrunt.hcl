@@ -3,5 +3,9 @@ include {
 }
 
 terraform {
-  source = "../../modules/argocd"
+  source = "../../../modules/argocd"
+}
+
+dependency "irsa_lb_controller" {
+  config_path = "../irsa"
 }

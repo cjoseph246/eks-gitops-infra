@@ -1,3 +1,7 @@
+provider "aws" {
+  region = var.aws_region
+}
+
 resource "helm_release" "argocd" {
   name       = "argocd"
   namespace  = "argocd"
@@ -47,4 +51,8 @@ resource "kubernetes_manifest" "app_of_apps" {
     }
   }
   depends_on = [helm_release.argocd]
+}
+
+terraform {
+  backend "s3" {}
 }
