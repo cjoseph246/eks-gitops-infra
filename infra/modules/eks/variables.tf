@@ -10,3 +10,23 @@ variable "aws_region" {
   type        = string
   description = "AWS region to deploy resources into"
 }
+
+variable "cluster_name" {
+  description = "The name of the EKS cluster"
+  type        = string
+}
+
+variable "cluster_version" {
+  description = "The Kubernetes version for the EKS cluster"
+  type        = string
+}
+
+variable "aws_auth_users" {
+  description = "IAM users to be added to aws-auth configmap"
+  type        = list(object({
+    userarn  = string
+    username = string
+    groups   = list(string)
+  }))
+  default = []
+}
