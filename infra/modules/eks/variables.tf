@@ -30,3 +30,9 @@ variable "aws_auth_users" {
   }))
   default = []
 }
+
+variable "public_access_cidrs" {
+  description = "List of CIDR blocks to allow public access to the EKS control plane"
+  type        = list(string)
+  default     = []
+}
