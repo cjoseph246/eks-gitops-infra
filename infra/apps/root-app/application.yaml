@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/cjoseph246/eks-gitops-infra.git
     targetRevision: HEAD
-    path: infrastructure/apps
+    path: infra/apps
     directory:
       recurse: true
   syncPolicy:
