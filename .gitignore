@@ -3,4 +3,6 @@
 .terraform/
 .terragrunt-cache/
 bucket_name.txt
+*.terraform.lock*
 *.bak
+assume-role.sh
