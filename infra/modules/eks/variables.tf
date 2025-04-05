@@ -36,3 +36,15 @@ variable "public_access_cidrs" {
   type        = list(string)
   default     = []
 }
+
+variable "manage_aws_auth_configmap" {
+  type = bool
+}
+
+variable "aws_auth_roles" {
+  type = list(object({
+    rolearn  = string
+    username = string
+    groups   = list(string)
+  }))
+}

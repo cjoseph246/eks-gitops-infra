@@ -36,8 +36,9 @@ module "eks" {
 module "aws_auth" {
   source = "github.com/terraform-aws-modules/terraform-aws-eks.git//modules/aws-auth?ref=v20.35.0"
 
-  manage_aws_auth_configmap = true
+  manage_aws_auth_configmap = var.manage_aws_auth_configmap
   aws_auth_users            = var.aws_auth_users
+  aws_auth_roles            = var.aws_auth_roles
 
   depends_on = [module.eks]
 }
