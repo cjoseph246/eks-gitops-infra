@@ -1,8 +1,18 @@
+provider "helm" {
+  alias = "eks"
+  kubernetes {
+    host                   = data.aws_eks_cluster.cluster.endpoint
+    cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority[0].data)
+    token                  = data.aws_eks_cluster_auth.cluster.token
+  }
+}
+
 provider "aws" {
   region = var.aws_region
 }
 
 resource "helm_release" "argocd" {
+  provider   = helm.eks
   name       = "argocd"
   namespace  = "argocd"
   chart      = "argo-cd"
@@ -22,6 +32,8 @@ EOF
   ]
 }
 
+# Comment out this block the fist time running terragrunt apply
+# Once Argo is up, uncomment and re-run terragrunt apply to create root-app
 resource "kubernetes_manifest" "app_of_apps" {
   manifest = {
     apiVersion = "argoproj.io/v1alpha1"
@@ -33,9 +45,9 @@ resource "kubernetes_manifest" "app_of_apps" {
     spec = {
       project = "default"
       source = {
-        repoURL        = "https://github.com/cjoseph/eks-gitops-infra.git"
+        repoURL        = "https://github.com/cjoseph246/eks-gitops-infra.git"
         targetRevision = "HEAD"
-        path           = "infra/apps"
+        path           = "infra/apps/root-app"
       }
       destination = {
         server    = "https://kubernetes.default.svc"
