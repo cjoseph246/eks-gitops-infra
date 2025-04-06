@@ -21,27 +21,13 @@ resource "helm_release" "argocd" {
 
   create_namespace = true
 
-values = [
-  <<EOF
+  values = [
+    <<EOF
 server:
   service:
     type: LoadBalancer
   ingress:
     enabled: false
-
-configs:
-  cm:
-    accounts.anonymous: "enabled"
-    server.disable.auth: "true"
-  rbac:
-    policy.default: "role:readonly"
-    policy.csv: |
-      p, role:readonly, applications, get, *, allow
-      p, role:readonly, projects, get, *, allow
-      p, role:readonly, clusters, get, *, allow
-      p, role:readonly, repositories, get, *, allow
-      p, role:readonly, logs, get, *, allow
-      g, system:anonymous, role:readonly
 EOF
   ]
 }
@@ -76,12 +62,6 @@ resource "kubernetes_manifest" "app_of_apps" {
       }
     }
   }
-
-  field_manager {
-    name            = "terraform"
-    force_conflicts = true
-  }
-
   depends_on = [helm_release.argocd]
 }
 
