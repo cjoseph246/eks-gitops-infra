@@ -4,7 +4,7 @@ image:
   tag: v0.2
   pullPolicy: IfNotPresent
 service:
-  type: LoadBalancer
+  type: ClusterIP
   port: 80
 resources:
   requests:
