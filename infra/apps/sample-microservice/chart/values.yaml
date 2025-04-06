@@ -1,7 +1,7 @@
 replicaCount: 5
 image:
   repository: cjoseph246/sample-microservice
-  tag: v0.1
+  tag: v0.2
   pullPolicy: IfNotPresent
 service:
   type: LoadBalancer
