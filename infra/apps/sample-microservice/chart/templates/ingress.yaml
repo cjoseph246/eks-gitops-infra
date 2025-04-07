@@ -1,12 +1,14 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "sample-microservice.fullname" . }}
+  name: sample-microservice
+  namespace: apps
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
     alb.ingress.kubernetes.io/backend-protocol: HTTP
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+    alb.ingress.kubernetes.io/subnets: "subnet-04ca89d109420e733,subnet-0613fbd7bb98c92b5,subnet-018d50158ede19b98"
 spec:
   ingressClassName: alb
   rules:
@@ -16,6 +18,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ include "sample-microservice.fullname" . }}
+                name: sample-microservice-sample-microservice
                 port:
-                  number: {{ .Values.service.port }}
+                  number: 80
