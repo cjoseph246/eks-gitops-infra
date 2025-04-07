@@ -9,6 +9,11 @@ data:
       username: eks-admin
       groups:
         - system:masters
+    - rolearn: arn:aws:iam::062989738166:role/default-eks-node-group-20250404183045393600000002
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
   mapUsers: |
     - userarn: arn:aws:iam::062989738166:user/Chuck
       username: Chuck
