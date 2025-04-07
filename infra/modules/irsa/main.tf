@@ -16,7 +16,7 @@ resource "aws_iam_role" "irsa" {
         Action = "sts:AssumeRoleWithWebIdentity",
         Condition = {
           StringEquals = {
-            "${var.oidc_provider_url}:sub" = "system:serviceaccount:${var.namespace}:${var.service_account_name}"
+            "${replace(var.oidc_provider_url, "https://", "")}:sub" = "system:serviceaccount:${var.namespace}:${var.service_account_name}"
           }
         }
       }
@@ -36,19 +36,6 @@ resource "aws_iam_policy" "aws_load_balancer_controller" {
 resource "aws_iam_role_policy_attachment" "alb_attach" {
   count      = var.name == "aws-load-balancer-controller-irsa" ? 1 : 0
   policy_arn = aws_iam_policy.aws_load_balancer_controller[0].arn
-  role       = aws_iam_role.irsa.name
-}
-
-resource "aws_iam_policy" "external_dns" {
-  count  = var.name == "external-dns-irsa" ? 1 : 0
-  name   = "ExternalDNSPolicy"
-  path   = "/"
-  policy = file("${path.module}/policies/external-dns.json")
-}
-
-resource "aws_iam_role_policy_attachment" "external_dns_attach" {
-  count      = var.name == "external-dns-irsa" ? 1 : 0
-  policy_arn = aws_iam_policy.external_dns[0].arn
   role       = aws_iam_role.irsa.name
 }
 
