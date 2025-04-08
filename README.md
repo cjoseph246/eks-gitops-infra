@@ -87,3 +87,22 @@ terragrunt apply
 kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 -d && echo
 kubectl port-forward svc/argocd-server -n argocd 8080:443
 ```
+
+## Release Pipeline (GitHub Actions + GitOps)
+``` 
+[ GitHub Actions ]
+     |
+     |-- Build + Push Docker image
+     |-- Update image.tag in values.yaml
+     |-- Commit + Push to GitOps repo (this repo)
+     ↓
+[ ArgoCD ]
+     |
+     |-- Detects change in Git
+     |-- Syncs Helm chart with updated image tag
+     ↓
+[ AWS EKS ]
+     |
+     |-- Pulls new container version
+     |-- Rolls out updated microservice
+```
