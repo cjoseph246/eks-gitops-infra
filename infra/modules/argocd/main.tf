@@ -18,23 +18,14 @@ resource "helm_release" "argocd" {
   chart      = "argo-cd"
   repository = "https://argoproj.github.io/argo-helm"
   version    = "7.8.21"
-
   create_namespace = true
 
-  values = [
-    <<EOF
-server:
-  service:
-    type: LoadBalancer
-  ingress:
-    enabled: false
-EOF
-  ]
+  values = [var.argocd_helm_values]
 }
 
-# Comment out this block the fist time running terragrunt apply
-# Once Argo is up, uncomment and re-run terragrunt apply to create root-app
 resource "kubernetes_manifest" "app_of_apps" {
+  count    = var.enable_app_of_apps ? 1 : 0
+
   manifest = {
     apiVersion = "argoproj.io/v1alpha1"
     kind       = "Application"
@@ -62,6 +53,7 @@ resource "kubernetes_manifest" "app_of_apps" {
       }
     }
   }
+
   depends_on = [helm_release.argocd]
 }
 
