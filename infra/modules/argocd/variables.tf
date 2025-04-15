@@ -14,9 +14,19 @@ variable "argocd_helm_values" {
   default     = <<EOF
 server:
   service:
-    type: LoadBalancer
+    type: ClusterIP
   ingress:
-    enabled: false
+    enabled: true
+    ingressClassName: alb
+    annotations:
+      kubernetes.io/ingress.class: alb
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+    hosts:
+      - argocd.prod.com
+    paths:
+      - /
 EOF
 }
 
