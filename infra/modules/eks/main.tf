@@ -17,20 +17,17 @@ module "eks" {
   cluster_endpoint_public_access_cidrs = var.public_access_cidrs
 
   eks_managed_node_groups = {
-    default = {
-      desired_size = 3
-      max_size     = 3
-      min_size     = 2
-
-      instance_types = ["t3.large"]
-      ami_type = "AL2_x86_64"
-      capacity_type  = "ON_DEMAND"
+    "${var.node_group_name}" = {
+      desired_size   = var.node_group_desired_size
+      max_size       = var.node_group_max_size
+      min_size       = var.node_group_min_size
+      instance_types = var.node_group_instance_types
+      ami_type       = var.node_group_ami_type
+      capacity_type  = var.node_group_capacity_type
     }
   }
 
-  tags = {
-    environment = "prod"
-  }
+  tags = var.tags
 }
 
 module "aws_auth" {
