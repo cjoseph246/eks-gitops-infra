@@ -1,7 +1,7 @@
 replicaCount: 5
 image:
   repository: cjoseph246/sample-microservice
-  tag: 20250411-220142-aba3882
+  tag: 20250502-220422-89309c8
   pullPolicy: IfNotPresent
 service:
   type: ClusterIP
